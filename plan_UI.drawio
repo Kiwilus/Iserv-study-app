@@ -1,0 +1,34 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.8.0 Safari/537.36" version="29.6.1">
+  <diagram name="Seite-1" id="bxnrxsk6Q8VjHjbJJTle">
+    <mxGraphModel dx="1425" dy="833" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="4LInMcmo4C36latRxQrc-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; font-size: 16px;&quot;&gt;&lt;font color=&quot;#000000&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;text-align: left;&quot;&gt;&lt;span style=&quot;background-color: transparent; color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;Passwort&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="290" width="190" x="80" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="4LInMcmo4C36latRxQrc-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="" vertex="1">
+          <mxGeometry height="360" width="190" x="360" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4LInMcmo4C36latRxQrc-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#76608a;fontColor=#ffffff;strokeColor=#432D57;" value="" vertex="1">
+          <mxGeometry height="290" width="190" x="640" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="4LInMcmo4C36latRxQrc-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;Iserv URL:&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="150" x="100" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="4LInMcmo4C36latRxQrc-5" parent="1" style="text;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;font-size: 16px; color: rgb(0, 0, 0);&quot;&gt;name.nachname&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="120" x="115" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="4LInMcmo4C36latRxQrc-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;color: rgb(0, 0, 0);&quot;&gt;Eingelogt als:&lt;/font&gt;" vertex="1">
+          <mxGeometry height="40" width="80" x="370" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="4LInMcmo4C36latRxQrc-9" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;font style=&quot;font-size: 14px; color: rgb(0, 0, 0);&quot;&gt;kevin.goss&lt;/font&gt;" vertex="1">
+          <mxGeometry height="30" width="60" x="460" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="4LInMcmo4C36latRxQrc-11" parent="1" style="text;whiteSpace=wrap;fontSize=10;fontColor=#000000;" value="Ungelesene E-Mails: 0&#xa;E-Mails: 0 ungelesen (keine neuen)&#xa;&#xa;Aktive Aufgaben (noch zu erledigen): 0&#xa;   Keine aktiven Aufgaben!&#xa;&#xa;&#xa;Überfällige Aufgaben (abgelaufen): 1&#xa;   * Geographie - Was haben wir heute gemacht und wie weiter? ...&#xa;      Datum: 03.03.2026 19:42&#xa;      Sie haben weniger als 25 Stunden um die folgende Aufgabe von Patricia Stasch zu erledigen&#xa;&#xa;&#xa;Sonstige Benachrichtigungen: 1&#xa;   * [quickpoll] Interesse Mathe-AG zur Prüfungsvorbereitung — Florian Bach hat eine neue Schnellumfrage gestartet" vertex="1">
+          <mxGeometry height="270" width="167.5" x="370" y="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

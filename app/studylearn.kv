@@ -1,0 +1,50 @@
+BoxLayoutExample:
+
+<BoxLayoutExample>:
+
+    orientation: "vertical"
+
+    Label:
+        text: "IServ App"
+        size_hint: .5, None
+        # size: "40dp", "40dp"
+        # width: "100dp"
+        height: "60dp"
+        pos_hint: {"center_x": .5}
+
+    BoxLayout:
+        orientation: "vertical"
+        spacing: "10dp"
+
+        Button:
+            text: "URL"
+            size_hint: .5, None
+            height: "80dp"
+            pos_hint: {"center_x": .5}
+
+        Button:
+            text: "name"
+            size_hint: .5, None
+            height: "80dp"
+            pos_hint: {"center_x": .5}
+
+        Button:
+            text: "password"
+            size_hint: .5, None
+            height: "80dp"
+            pos_hint: {"center_x": .5}
+
+
+
+<MainWidget>:
+    Button:
+        text: "hello"
+        size: "100dp", "80dp"
+        pos: "100dp", "200dp"
+        color: 36, 33, 187, 0.8
+
+    Label:
+        text: "hello2"
+        size: "100dp", "80dp"
+        pos: "200dp", "300dp"
+        color: 36, 33, 187, 0.8
