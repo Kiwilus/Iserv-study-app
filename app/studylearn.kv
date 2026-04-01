@@ -1,67 +1,59 @@
-AnchorLayoutExample:
-
-<AnchorLayoutExample>:
-    # right, left, center
-    anchor_x: "left"
-    # bottom, top, center
-    anchor_y: "top"
-
-    Button:
-        text: "A"
-        size_hint: .1, .1
-
-    #Button:
-    #    text: "B"
-    #    size_hint: .1, .1
+ScreenManager:
+    LoginScreen:
+    LoadingScreen:
+    MainScreen:
 
 
-
-
-<BoxLayoutExample>:
-
-    orientation: "vertical"
-
-    Label:
-        text: "IServ App"
-        size_hint: .5, None
-        # size: "40dp", "40dp"
-        # width: "100dp"
-        height: "60dp"
-        pos_hint: {"center_x": .5}
+<LoginScreen>:
+    name: "login"
 
     BoxLayout:
         orientation: "vertical"
-        spacing: "10dp"
+        padding: 20
+        spacing: 10
+
+        Label:
+            text: "Einloggen mit IServ Account..."
+
+        TextInput:
+            id: "URL"
+            hint_text: "URL von deinem IServ"
+            multi_line: False
+
+        TextInput:
+            id: "Username"
+            hint_text: "dein Nutzername bitte"
+            multi_line: False
+
+        TextInput:
+            id: "Password"
+            hint_text: "und jetzt dein IServ passwort"
+            multi_line: False
 
         Button:
-            text: "URL"
-            size_hint: .5, None
-            height: "80dp"
-            pos_hint: {"center_x": .5}
+            text: "Einloggen"
+            on_press: root.login()
+
+
+<LoadingScreen>:
+    name: "loading"
+
+    BoxLayout:
+        orientation: "vertical"
+
+        Label:
+            text: "Verbinde..."
 
         Button:
-            text: "name"
-            size_hint: .5, None
-            height: "80dp"
-            pos_hint: {"center_x": .5}
-
-        Button:
-            text: "password"
-            size_hint: .5, None
-            height: "80dp"
-            pos_hint: {"center_x": .5}
+            text: "Weiter"
+            on_press: root.go_main()
 
 
+<MainScreen>:
+    name: "main"
 
-<MainWidget>:
-    Button:
-        text: "hello"
-        size: "100dp", "80dp"
-        pos: "100dp", "200dp"
-        color: 36, 33, 187, 0.8
+    BoxLayout:
+        orientation: "vertical"
 
-    Label:
-        text: "hello2"
-        size: "100dp", "80dp"
-        pos: "200dp", "300dp"
-        color: 36, 33, 187, 0.8
+        Label:
+            text: "Du bist eingeloggt "
