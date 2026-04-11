@@ -141,7 +141,7 @@ def main():
 
     # --- Aufgaben ---
     check_tasks(api)
-    #check_new_tasks(api, known_task_ids)
+    check_new_tasks(api, known_task_ids)
 
     # --- Sonstige Benachrichtigungen ---
     check_other_notifications(api)
