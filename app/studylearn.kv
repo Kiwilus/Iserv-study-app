@@ -1,59 +1,424 @@
-ScreenManager:
-    LoginScreen:
-    LoadingScreen:
-    MainScreen:
+#:import dp kivy.metrics.dp
 
-
+# ─────────────────────────────────────────────
+# Login Screen
+# ─────────────────────────────────────────────
 <LoginScreen>:
-    name: "login"
-
     BoxLayout:
-        orientation: "vertical"
-        padding: 20
-        spacing: 10
+        orientation: 'vertical'
+        padding: dp(40)
+        spacing: dp(20)
+        canvas.before:
+            Color:
+                rgba: 0.08, 0.10, 0.16, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
 
         Label:
-            text: "Einloggen mit IServ Account..."
+            text: "IServ Dashboard"
+            font_size: "28sp"
+            bold: True
+            color: 0.18, 0.48, 0.9, 1
+            size_hint_y: None
+            height: dp(70)
 
         TextInput:
-            id: "URL"
-            hint_text: "URL von deinem IServ"
-            multi_line: False
+            id: url_input
+            hint_text: "IServ URL (z.B. https://schule.iserv.de)"
+            multiline: False
+            size_hint_y: None
+            height: dp(52)
+            font_size: "16sp"
+            padding: dp(12), dp(14)
+            background_color: 0.14, 0.17, 0.24, 1
+            foreground_color: 0.95, 0.95, 1, 1
+            hint_text_color: 0.45, 0.50, 0.62, 1
+            cursor_color: 0.18, 0.48, 0.9, 1
 
         TextInput:
-            id: "Username"
-            hint_text: "dein Nutzername bitte"
-            multi_line: False
+            id: username_input
+            hint_text: "Benutzername"
+            multiline: False
+            size_hint_y: None
+            height: dp(52)
+            font_size: "16sp"
+            padding: dp(12), dp(14)
+            background_color: 0.14, 0.17, 0.24, 1
+            foreground_color: 0.95, 0.95, 1, 1
+            hint_text_color: 0.45, 0.50, 0.62, 1
+            cursor_color: 0.18, 0.48, 0.9, 1
 
         TextInput:
-            id: "Password"
-            hint_text: "und jetzt dein IServ passwort"
-            multi_line: False
+            id: password_input
+            hint_text: "Passwort"
+            password: True
+            multiline: False
+            size_hint_y: None
+            height: dp(52)
+            font_size: "16sp"
+            padding: dp(12), dp(14)
+            background_color: 0.14, 0.17, 0.24, 1
+            foreground_color: 0.95, 0.95, 1, 1
+            hint_text_color: 0.45, 0.50, 0.62, 1
+            cursor_color: 0.18, 0.48, 0.9, 1
 
         Button:
-            text: "Einloggen"
-            on_press: root.login()
+            text: "Anmelden"
+            size_hint_y: None
+            height: dp(56)
+            font_size: "18sp"
+            background_color: 0.18, 0.48, 0.9, 1
+            color: 1, 1, 1, 1
+            on_release: root.login()
+
+        Label:
+            text: root.error_text
+            color: 0.92, 0.35, 0.35, 1
+            size_hint_y: None
+            height: dp(35)
+            halign: "center"
+            text_size: self.width, None
+            font_size: "15sp"
+
+        Widget:
 
 
+# ─────────────────────────────────────────────
+# Loading Screen
+# ─────────────────────────────────────────────
 <LoadingScreen>:
-    name: "loading"
+    canvas.before:
+        Color:
+            rgba: 0.08, 0.10, 0.16, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
     BoxLayout:
-        orientation: "vertical"
+        orientation: 'vertical'
+        padding: dp(40)
+        spacing: dp(30)
+
+        Widget:
+            size_hint_y: 0.35
+
+        Spinner:
+            size_hint: None, None
+            size: dp(70), dp(70)
+            pos_hint: {'center_x': 0.5}
+            active: True
 
         Label:
-            text: "Verbinde..."
+            text: root.status_text
+            font_size: "19sp"
+            halign: "center"
+            color: 0.75, 0.78, 0.85, 1
 
-        Button:
-            text: "Weiter"
-            on_press: root.go_main()
+        Widget:
+            size_hint_y: 0.65
 
 
+# ─────────────────────────────────────────────
+# Main Screen
+# ─────────────────────────────────────────────
 <MainScreen>:
-    name: "main"
+    canvas.before:
+        Color:
+            rgba: 0.08, 0.10, 0.16, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
     BoxLayout:
-        orientation: "vertical"
+        orientation: 'vertical'
+
+        # ── Header ──────────────────────────────
+        BoxLayout:
+            size_hint_y: None
+            height: dp(64)
+            padding: dp(14), dp(10)
+            spacing: dp(10)
+            canvas.before:
+                Color:
+                    rgba: 0.10, 0.13, 0.20, 1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Label:
+                text: "Willkommen, " + root.username_label
+                font_size: "19sp"
+                bold: True
+                color: 1, 1, 1, 1
+                halign: "left"
+                text_size: self.size
+
+            Button:
+                text: "Aktualisieren"
+                size_hint_x: None
+                width: dp(130)
+                background_color: 0.18, 0.52, 1, 1
+                color: 1, 1, 1, 1
+                on_release: root.refresh()
+
+            Button:
+                text: "Abmelden"
+                size_hint_x: None
+                width: dp(110)
+                background_color: 0.72, 0.22, 0.22, 1
+                color: 1, 1, 1, 1
+                on_release: root.logout()
+
+        # ── Statuszeile ─────────────────────────
+        Label:
+            text: root.is_loading if root.is_loading else root.status_text
+            size_hint_y: None
+            height: dp(30)
+            font_size: "13sp"
+            color: 0.55, 0.65, 0.85, 1
+            halign: "left"
+            padding_x: dp(16)
+            text_size: self.size
+
+        # ── Scrollbarer Inhalt ───────────────────
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: dp(6)
+            bar_color: 0.3, 0.5, 0.9, 0.8
+            bar_inactive_color: 0.2, 0.3, 0.5, 0.4
+            effect_cls: "ScrollEffect"
+
+            BoxLayout:
+                orientation: 'vertical'
+                padding: dp(14), dp(14), dp(14), dp(24)
+                spacing: dp(0)
+                size_hint_y: None
+                height: self.minimum_height
+
+                # ════════════════════════════════
+                # Sektion: E-Mails
+                # ════════════════════════════════
+                SectionHeader:
+                    header_text: "E-Mails"
+                    header_color: 0.18, 0.48, 0.9, 1
+
+                # E-Mail Zusammenfassung
+                BoxLayout:
+                    size_hint_y: None
+                    height: dp(60)
+                    spacing: dp(12)
+                    padding: dp(16), dp(8)
+                    canvas.before:
+                        Color:
+                            rgba: 0.12, 0.15, 0.22, 1
+                        RoundedRectangle:
+                            pos: self.pos
+                            size: self.size
+                            radius: [dp(10)]
+
+                    Label:
+                        text: "Ungelesene Nachrichten:"
+                        font_size: "15sp"
+                        color: 0.7, 0.75, 0.85, 1
+                        halign: "left"
+                        text_size: self.size
+
+                    Label:
+                        text: str(root.unread_count)
+                        font_size: "26sp"
+                        bold: True
+                        color: (0.18, 0.55, 1, 1) if root.unread_count > 0 else (0.5, 0.6, 0.75, 1)
+                        size_hint_x: None
+                        width: dp(70)
+                        halign: "center"
+
+                Widget:
+                    size_hint_y: None
+                    height: dp(20)
+
+                # ════════════════════════════════
+                # Sektion: Aktive Aufgaben
+                # ════════════════════════════════
+                SectionHeader:
+                    header_text: "Aktive Aufgaben"
+                    header_color: 0.15, 0.72, 0.40, 1
+
+                TaskList:
+                    id: active_task_list
+                    tasks: root.active_tasks
+                    accent_color: 0.15, 0.72, 0.40, 1
+
+                Widget:
+                    size_hint_y: None
+                    height: dp(20)
+
+                # ════════════════════════════════
+                # Sektion: Überfällige Aufgaben
+                # ════════════════════════════════
+                SectionHeader:
+                    header_text: "Überfällige Aufgaben"
+                    header_color: 0.88, 0.28, 0.28, 1
+
+                TaskList:
+                    id: overdue_task_list
+                    tasks: root.overdue_tasks
+                    accent_color: 0.88, 0.28, 0.28, 1
+
+                Widget:
+                    size_hint_y: None
+                    height: dp(20)
+
+                # ════════════════════════════════
+                # Sektion: Weitere Benachrichtigungen
+                # ════════════════════════════════
+                SectionHeader:
+                    header_text: "Weitere Benachrichtigungen"
+                    header_color: 0.65, 0.68, 0.82, 1
+
+                NotifList:
+                    id: notif_list
+                    notifs: root.other_notifs
+
+                Widget:
+                    size_hint_y: None
+                    height: dp(20)
+
+
+# ─────────────────────────────────────────────
+# Hilfs-Widget: Sektions-Header
+# ─────────────────────────────────────────────
+<SectionHeader@BoxLayout>:
+    header_text:  ""
+    header_color: [0.18, 0.48, 0.9, 1]
+
+    orientation: "vertical"
+    size_hint_y: None
+    height: dp(48)
+    padding: 0, 0, 0, dp(8)
+    spacing: 0
+
+    Label:
+        text: root.header_text
+        font_size: "19sp"
+        bold: True
+        color: root.header_color
+        halign: "left"
+        text_size: self.size
+        size_hint_y: None
+        height: dp(30)
+
+    # Trennlinie
+    BoxLayout:
+        size_hint_y: None
+        height: dp(2)
+        canvas.before:
+            Color:
+                rgba: root.header_color[:3] + [0.45]
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+
+# ─────────────────────────────────────────────
+# Aufgaben-Karte
+# ─────────────────────────────────────────────
+<TaskRow@BoxLayout>:
+    title_text: ""
+    date_text:  ""
+    msg_text:   ""
+    accent:     [0.18, 0.48, 0.9, 1]
+
+    orientation: "vertical"
+    size_hint_y: None
+    height: dp(94)
+    padding: dp(14), dp(10), dp(14), dp(10)
+    spacing: dp(6)
+
+    canvas.before:
+        Color:
+            rgba: 0.13, 0.16, 0.23, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(11)]
+        # Farbiger Balken oben
+        Color:
+            rgba: root.accent
+        RoundedRectangle:
+            pos: self.x, self.top - dp(4)
+            size: self.width, dp(4)
+            radius: [dp(11), dp(11), 0, 0]
+
+    Label:
+        text: root.title_text
+        font_size: "16sp"
+        bold: True
+        color: 0.95, 0.97, 1, 1
+        size_hint_y: None
+        height: dp(28)
+        halign: "left"
+        text_size: self.width, None
+        shorten: True
+        shorten_from: "right"
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(22)
+        spacing: dp(16)
 
         Label:
-            text: "Du bist eingeloggt "
+            text: root.date_text
+            font_size: "13sp"
+            color: 0.50, 0.65, 0.90, 1
+            halign: "left"
+            size_hint_x: None
+            width: dp(130)
+            text_size: self.size
+
+        Label:
+            text: root.msg_text
+            font_size: "13sp"
+            color: 0.65, 0.70, 0.82, 1
+            halign: "left"
+            text_size: self.size
+            shorten: True
+            shorten_from: "right"
+
+
+# ─────────────────────────────────────────────
+# Benachrichtigungs-Zeile
+# ─────────────────────────────────────────────
+<NotifRow@BoxLayout>:
+    notif_text: ""
+
+    orientation: "horizontal"
+    size_hint_y: None
+    height: dp(52)
+    padding: dp(14), dp(10)
+    spacing: dp(10)
+
+    canvas.before:
+        Color:
+            rgba: 0.12, 0.15, 0.21, 1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(9)]
+        # linker Akzentstreifen
+        Color:
+            rgba: 0.50, 0.55, 0.75, 0.8
+        Rectangle:
+            pos: self.x, self.y + dp(6)
+            size: dp(3), self.height - dp(12)
+
+    Label:
+        text: root.notif_text
+        font_size: "14sp"
+        color: 0.80, 0.83, 0.92, 1
+        halign: "left"
+        valign: "middle"
+        text_size: self.size
+        shorten: True
+        shorten_from: "right"
