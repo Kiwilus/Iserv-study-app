@@ -1,8 +1,7 @@
 #:import dp kivy.metrics.dp
 
-# ─────────────────────────────────────────────
 # Login Screen
-# ─────────────────────────────────────────────
+
 <LoginScreen>:
     BoxLayout:
         orientation: 'vertical'
@@ -25,7 +24,7 @@
 
         TextInput:
             id: url_input
-            hint_text: "IServ URL (z.B. https://schule.iserv.de)"
+            hint_text: "IServ URL (e.g. school.iserv.com)"
             multiline: False
             size_hint_y: None
             height: dp(52)
@@ -38,7 +37,7 @@
 
         TextInput:
             id: username_input
-            hint_text: "Benutzername"
+            hint_text: "username"
             multiline: False
             size_hint_y: None
             height: dp(52)
@@ -51,7 +50,7 @@
 
         TextInput:
             id: password_input
-            hint_text: "Passwort"
+            hint_text: "password"
             password: True
             multiline: False
             size_hint_y: None
@@ -64,7 +63,7 @@
             cursor_color: 0.18, 0.48, 0.9, 1
 
         Button:
-            text: "Anmelden"
+            text: "log in"
             size_hint_y: None
             height: dp(56)
             font_size: "18sp"
@@ -84,9 +83,8 @@
         Widget:
 
 
-# ─────────────────────────────────────────────
 # Loading Screen
-# ─────────────────────────────────────────────
+
 <LoadingScreen>:
     canvas.before:
         Color:
@@ -119,9 +117,8 @@
             size_hint_y: 0.65
 
 
-# ─────────────────────────────────────────────
 # Main Screen
-# ─────────────────────────────────────────────
+
 <MainScreen>:
     canvas.before:
         Color:
@@ -133,7 +130,7 @@
     BoxLayout:
         orientation: 'vertical'
 
-        # ── Header ──────────────────────────────
+        # header
         BoxLayout:
             size_hint_y: None
             height: dp(64)
@@ -147,7 +144,7 @@
                     size: self.size
 
             Label:
-                text: "Willkommen, " + root.username_label
+                text: "Welcome, " + root.username_label
                 font_size: "19sp"
                 bold: True
                 color: 1, 1, 1, 1
@@ -155,7 +152,7 @@
                 text_size: self.size
 
             Button:
-                text: "Aktualisieren"
+                text: "Update"
                 size_hint_x: None
                 width: dp(130)
                 background_color: 0.18, 0.52, 1, 1
@@ -163,14 +160,14 @@
                 on_release: root.refresh()
 
             Button:
-                text: "Abmelden"
+                text: "log out"
                 size_hint_x: None
                 width: dp(110)
                 background_color: 0.72, 0.22, 0.22, 1
                 color: 1, 1, 1, 1
                 on_release: root.logout()
 
-        # ── Statuszeile ─────────────────────────
+        # status bar
         Label:
             text: root.is_loading if root.is_loading else root.status_text
             size_hint_y: None
@@ -181,7 +178,7 @@
             padding_x: dp(16)
             text_size: self.size
 
-        # ── Scrollbarer Inhalt ───────────────────
+        # Scrollable content
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
@@ -197,14 +194,12 @@
                 size_hint_y: None
                 height: self.minimum_height
 
-                # ════════════════════════════════
-                # Sektion: E-Mails
-                # ════════════════════════════════
+                # section: E-Mails
                 SectionHeader:
                     header_text: "E-Mails"
                     header_color: 0.18, 0.48, 0.9, 1
 
-                # E-Mail Zusammenfassung
+                # E-Mail conclusion
                 BoxLayout:
                     size_hint_y: None
                     height: dp(60)
@@ -219,7 +214,7 @@
                             radius: [dp(10)]
 
                     Label:
-                        text: "Ungelesene Nachrichten:"
+                        text: "Unread messages:"
                         font_size: "15sp"
                         color: 0.7, 0.75, 0.85, 1
                         halign: "left"
@@ -238,11 +233,9 @@
                     size_hint_y: None
                     height: dp(20)
 
-                # ════════════════════════════════
-                # Sektion: Aktive Aufgaben
-                # ════════════════════════════════
+                # section: active tasks
                 SectionHeader:
-                    header_text: "Aktive Aufgaben"
+                    header_text: "Active tasks"
                     header_color: 0.15, 0.72, 0.40, 1
 
                 TaskList:
@@ -254,11 +247,9 @@
                     size_hint_y: None
                     height: dp(20)
 
-                # ════════════════════════════════
-                # Sektion: Überfällige Aufgaben
-                # ════════════════════════════════
+                # section: overdue tasks
                 SectionHeader:
-                    header_text: "Überfällige Aufgaben"
+                    header_text: "Overdue tasks"
                     header_color: 0.88, 0.28, 0.28, 1
 
                 TaskList:
@@ -270,11 +261,9 @@
                     size_hint_y: None
                     height: dp(20)
 
-                # ════════════════════════════════
-                # Sektion: Weitere Benachrichtigungen
-                # ════════════════════════════════
+                # Section: other notifications
                 SectionHeader:
-                    header_text: "Weitere Benachrichtigungen"
+                    header_text: "other notifications"
                     header_color: 0.65, 0.68, 0.82, 1
 
                 NotifList:
@@ -286,9 +275,8 @@
                     height: dp(20)
 
 
-# ─────────────────────────────────────────────
-# Hilfs-Widget: Sektions-Header
-# ─────────────────────────────────────────────
+# Helper Widget: Section Header
+
 <SectionHeader@BoxLayout>:
     header_text:  ""
     header_color: [0.18, 0.48, 0.9, 1]
@@ -321,9 +309,8 @@
                 size: self.size
 
 
-# ─────────────────────────────────────────────
 # Aufgaben-Karte
-# ─────────────────────────────────────────────
+
 <TaskRow@BoxLayout>:
     title_text: ""
     date_text:  ""
@@ -343,7 +330,7 @@
             pos: self.pos
             size: self.size
             radius: [dp(11)]
-        # Farbiger Balken oben
+        # Colored bar at the top
         Color:
             rgba: root.accent
         RoundedRectangle:
@@ -387,9 +374,8 @@
             shorten_from: "right"
 
 
-# ─────────────────────────────────────────────
-# Benachrichtigungs-Zeile
-# ─────────────────────────────────────────────
+# Notification Line
+
 <NotifRow@BoxLayout>:
     notif_text: ""
 

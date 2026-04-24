@@ -9,16 +9,14 @@ from kivy.properties import (
     StringProperty, NumericProperty,
     ListProperty, ColorProperty
 )
+from bs4 import BeautifulSoup
 import threading
 from datetime import datetime, timezone
 
 
-# ─────────────────────────────────────────────
-# Dynamic list widgets
-# ─────────────────────────────────────────────
-
+# Dynamic list widgets #
 class TaskList(BoxLayout):
-    """Dynamische Liste von Aufgaben-Karten."""
+    """Dynamic list of task cards."""
     tasks        = ListProperty([])
     accent_color = ColorProperty([0.18, 0.48, 0.9, 1])
 
@@ -34,7 +32,7 @@ class TaskList(BoxLayout):
         self.clear_widgets()
         if not self.tasks:
             placeholder = Label(
-                text="Keine Aufgaben vorhanden.",
+                text="No tasks found.",
                 font_size="14sp",
                 color=(0.55, 0.6, 0.7, 1),
                 size_hint_y=None,
@@ -48,7 +46,7 @@ class TaskList(BoxLayout):
 
         total_h = 0
         for task in self.tasks:
-            title = task.get("title", "Kein Titel")
+            title = task.get("title", "no title")
             if len(title) > 80:
                 title = title[:77] + "…"
             date_text = task.get("date_fmt", task.get("date", ""))
@@ -69,7 +67,7 @@ TaskRow:
 
 
 class NotifList(BoxLayout):
-    """Dynamische Liste sonstiger Benachrichtigungen."""
+    """Dynamic list of other notifications."""
     notifs = ListProperty([])
 
     def __init__(self, **kwargs):
@@ -84,7 +82,7 @@ class NotifList(BoxLayout):
         self.clear_widgets()
         if not self.notifs:
             placeholder = Label(
-                text="Keine weiteren Benachrichtigungen.",
+                text="No more notifications.",
                 font_size="14sp",
                 color=(0.55, 0.6, 0.7, 1),
                 size_hint_y=None,
@@ -118,7 +116,7 @@ NotifRow:
 
 
 class EmailList(BoxLayout):
-    """Dynamische Liste der letzten E-Mails."""
+    """Dynamic list of recent emails."""
     emails = ListProperty([])
 
     def __init__(self, **kwargs):
@@ -133,7 +131,7 @@ class EmailList(BoxLayout):
         self.clear_widgets()
         if not self.emails:
             placeholder = Label(
-                text="Keine E-Mails geladen.",
+                text="No E-Mails loaded.",
                 font_size="14sp",
                 color=(0.55, 0.6, 0.7, 1),
                 size_hint_y=None,
@@ -147,7 +145,7 @@ class EmailList(BoxLayout):
 
         total_h = 0
         for mail in self.emails:
-            subject  = mail.get("title", "(Kein Betreff)")
+            subject  = mail.get("title", "(No subject)")
             date     = mail.get("date", "")
             seen     = mail.get("seen", True)
             attach   = mail.get("attach", False)
@@ -166,19 +164,14 @@ EmailRow:
             total_h += dp(52) + dp(6)
         self.height = max(total_h - dp(6), dp(0))
 
-# ─────────────────────────────────────────────
+
 # IServAPI import
-# ─────────────────────────────────────────────
 try:
     from IServAPI import IServAPI
 except ImportError:
     IServAPI = None
 
-
-# ─────────────────────────────────────────────
 # Screens
-# ─────────────────────────────────────────────
-
 class LoginScreen(Screen):
     error_text = StringProperty("")
 
@@ -188,11 +181,11 @@ class LoginScreen(Screen):
         password = self.ids.password_input.text.strip()
 
         if not url or not username or not password:
-            self.error_text = "Bitte alle Felder ausfüllen."
+            self.error_text = "Please fill in all fields."
             return
 
         if IServAPI is None:
-            self.error_text = "IServAPI nicht installiert."
+            self.error_text = "IServAPI not installed."
             return
 
         self.error_text = ""
@@ -223,11 +216,11 @@ class LoginScreen(Screen):
 
     def _on_error(self, err):
         self.manager.current = "login"
-        self.error_text = f"Fehler: {err}"
+        self.error_text = f"Error: {err}"
 
 
 class LoadingScreen(Screen):
-    status_text = StringProperty("Verbinde mit IServ…")
+    status_text = StringProperty("connecting to IServ…")
 
 
 class MainScreen(Screen):
@@ -239,12 +232,12 @@ class MainScreen(Screen):
     overdue_tasks  = ListProperty([])
     other_notifs   = ListProperty([])
     status_text    = StringProperty("")
-    is_loading     = StringProperty("Daten werden geladen…")
+    is_loading     = StringProperty("loading data…")
 
     def load_data(self):
         app = App.get_running_app()
         self.username_label = app.username
-        self.is_loading = "Daten werden geladen…"
+        self.is_loading = "loading data…"
         threading.Thread(target=self._fetch, daemon=True).start()
 
     def _fetch(self):
@@ -259,15 +252,14 @@ class MainScreen(Screen):
             email_items = []
             for m in raw_mails[:20]:
                 email_items.append({
-                    "title":   m.get("subject", "(Kein Betreff)"),
+                    "title":   m.get("subject", "(no subject)"),
                     "date":    m.get("date", ""),
                     "seen":    m.get("seen", True),
                     "attach":  m.get("attachment", False),
                     "flagged": m.get("flagged", False),
                 })
 
-            # ── Aufgaben via HTML-Scraping ───────────────────────
-            from bs4 import BeautifulSoup
+            # Tasks via HTML scraping
             base_url = "https://" + app.iserv_url.replace("https://","").replace("http://","").rstrip("/")
             exercise_r = api._session.get(f"{base_url}/iserv/exercise")
             soup = BeautifulSoup(exercise_r.text, "html.parser")
@@ -275,7 +267,7 @@ class MainScreen(Screen):
             now = datetime.now(timezone.utc)
             active, overdue = [], []
 
-            # Aufgaben stehen in Tabellen-Zeilen
+            # Tasks are in table rows
             for row in soup.select("table tbody tr"):
                 cols = row.find_all("td")
                 if len(cols) < 2:
@@ -283,7 +275,7 @@ class MainScreen(Screen):
                 title_tag = row.select_one("a")
                 title     = title_tag.get_text(strip=True) if title_tag else cols[0].get_text(strip=True)
 
-                # Fälligkeitsdatum suchen
+                # Find a Due Date
                 date_text = ""
                 date_fmt  = ""
                 is_past   = False
@@ -302,7 +294,7 @@ class MainScreen(Screen):
                         except Exception:
                             date_fmt = date_text
 
-                # Status-Spalte (abgegeben / offen)
+                # Status column (submitted/open)
                 status = ""
                 status_tag = row.select_one(".badge, .label, td:last-child")
                 if status_tag:
@@ -320,7 +312,7 @@ class MainScreen(Screen):
                 else:
                     active.append(entry)
 
-            # ── Sonstige Benachrichtigungen ──────────────────────
+            # other notifications
             notifs_raw = api.get_notifications()
             all_notifs = (
                 notifs_raw.get("data", {}).get("notifications", [])
@@ -351,14 +343,14 @@ class MainScreen(Screen):
         self.overdue_tasks = overdue
         self.other_notifs  = others
         self.is_loading    = ""
-        self.status_text   = f"Zuletzt aktualisiert: {datetime.now().strftime('%H:%M:%S')}"
+        self.status_text   = f"Last Updated: {datetime.now().strftime('%H:%M:%S')}"
 
     def _apply_error(self, err):
         self.is_loading  = ""
-        self.status_text = f"Fehler beim Laden: {err}"
+        self.status_text = f"Loading error: {err}"
 
     def refresh(self):
-        self.is_loading = "Aktualisiere…"
+        self.is_loading = "Update…"
         threading.Thread(target=self._fetch, daemon=True).start()
 
     def logout(self):
@@ -368,11 +360,7 @@ class MainScreen(Screen):
         app.password = ""
         self.manager.current = "login"
 
-
-# ─────────────────────────────────────────────
 # App
-# ─────────────────────────────────────────────
-
 class IServDashboardApp(App):
     api       = None
     username  = ""
@@ -393,5 +381,3 @@ class IServDashboardApp(App):
 
 if __name__ == "__main__":
     IServDashboardApp().run()
-
-    #real
